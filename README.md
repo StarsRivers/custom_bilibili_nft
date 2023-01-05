@@ -2,6 +2,8 @@
 
 自定义 B 站 NFT 头像
 
+更新了三体卡的轮询支持
+
 ## 运行环境
 
 python3.8+
@@ -11,7 +13,6 @@ python3.8+
 ```bash
 pip install requests requests_toolbelt
 ```
-
 ## 获取 ACCESS_KEY
 
 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool
