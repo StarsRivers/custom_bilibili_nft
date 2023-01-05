@@ -1,4 +1,4 @@
-# custom_bilibili_nft 头图寄了已经改过的人千万别动了，动了就被还原了 头像还可以改
+# custom_bilibili_nft
 
 自定义 B 站 NFT 头像
 
