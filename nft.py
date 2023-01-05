@@ -1,4 +1,6 @@
 import time
+import json
+from pathlib import Path
 from typing import Union
 import requests
 from hashlib import md5
@@ -7,10 +9,11 @@ from urllib.parse import urlencode
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import imghdr
 
-UID = 0  # 你的UID
-ACCESS_KEY = ""  # 你的ACCESS_KEY (TV端,非TV端自行更换下面的APPKEY,APPSECRET,TV端access_key获取工具 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool)
+UID = 00000000000 # 你的UID
+ACCESS_KEY = "00000000000000"  # 你的ACCESS_KEY (TV端,非TV端自行更换下面的APPKEY,APPSECRET,TV端access_key获取工具 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool)
 FACE_PATH = r"face.jpg"  # 头像路径 推荐正方形
-BG_PATH = r"background.jpg"  # 背景图路径 推荐 9:16 竖版原图 效果非常好
+
+CARD_INFO_PATH = Path(__file__).parent / "bili.json"  # 不要动
 
 
 class Crypto:
@@ -78,7 +81,7 @@ def get_one_card_id():
     params = SingableDict(
         {
             "access_key": ACCESS_KEY,
-            "act_id": "4",
+            "act_id": "14",  #这里默认已经是三体数字藏品卡14，github下载的默认是4，也就是胶囊卡
             "appkey": "4409e2ce8ffd12b8",
             "disable_rcmd": "0",
             "ruid": UID,
@@ -89,15 +92,30 @@ def get_one_card_id():
     response = requests.request("GET", url, params=params)
     data = response.json()
     if data['code'] != 0:
-        print(data)
+        print(f"获取卡片信息出错，下面是 api 返回：\n{data}")
         return
-    for round in data['data']['round_list']:
-        for card in round['card_list']:
-            if card['card_type'] == 1 and card['card_id_list']:
-                print(card['card_id_list'][0]['card_id'])
-                return card['card_id_list'][0]['card_id']
-    print('没有 R 级别胶囊计划的卡片')
-    return None
+    # print(data)  # 查询已添加无需再填
+    with CARD_INFO_PATH.open("w", encoding="utf8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+        print(f"已将卡片信息写入 {CARD_INFO_PATH}")
+        for round in data['data']['round_list']:
+                for card in round['card_list']:
+                    if card['card_type'] == 1 and card['card_id_list']:
+                        print(card['card_id_list'][0]['card_id'])
+                        return card['card_id_list'][0]['card_id']
+        print('没有 R 级别胶囊计划的卡片')
+        for i in data["data"]["pre_list"]:
+            if card_id_list := i.get("card_id_list"):
+                for j in card_id_list:
+                    if card_id := j.get("card_id"):
+                        print("=================================")
+                        print(f"找到三体卡 card_id: {card_id}\n这个 id 属于 {i.get('card_name')}")
+                        print("=================================")
+                        return card_id
+                    else:
+                        print()  # 有值的 card_id_list 中没找到 card_id ，可能是没领三体卡吧
+            else:
+                print()  # 卡片信息中没找到有值的 card_id_list ，可能是没有这张三体卡吧
 
 
 def set_face(card_id):
@@ -132,44 +150,16 @@ def set_face(card_id):
         return
     print('设置头像成功, 请等待审核')
 
-
-def set_bg_img(img_url, card_id):
-    api = "https://app.bilibili.com//x/v2/space/digital/bind"
-    data = SingableDict(
-        {
-            "access_key": ACCESS_KEY,
-            "appkey": "4409e2ce8ffd12b8",
-            "build": "7090300",
-            "c_locale": "zh_CN",
-            "card_id": card_id,
-            "channel": "xiaomi",
-            "disable_rcmd": "0",
-            "img_url": img_url,
-            "mobi_app": "android",
-            "platform": "android",
-            "s_locale": "zh_CN",
-            "space_bg_type": "1",
-            "statistics": "{\"appId\":1,\"platform\":3,\"version\":\"7.9.0\",\"abtest\":\"\"}",
-            "ts": int(time.time()),
-        }
-    ).signed
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
-    }
-    response = requests.request("POST", api, data=data, headers=headers)
-    if response.json()['code'] != 0:
-        print(response.json())
-        return
-    print('设置背景成功')
-
-
 def main():
-    card_id = get_one_card_id()
+    card_id = get_one_card_id() # 根据你所取得的卡card_id进行更改
     if not card_id:
+        print("没找到 card_id ,请确认是否已经领取卡片")
         return
-    # img_url = upload_image(BG_PATH)
-    # set_bg_img(img_url, card_id)
-    set_face(card_id)
+    flag = input(f"请输入“y”并回车继续换头像（请确认文件夹中的 {FACE_PATH} 已经替换成您想更换的头像）输入其他结束程序：")
+    if flag.lower() == "y":
+        # img_url = upload_image(BG_PATH)
+        # set_bg_img(img_url, card_id)
+        set_face(card_id)
 
 
 if __name__ == '__main__':
