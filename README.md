@@ -17,6 +17,9 @@ pip install requests requests_toolbelt
 
 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool
 
+如果下载慢，可使用以下网盘下载
+https://www.123pan.com/s/Dl5UVv-KYr8H
+
 ## 填写配置后运行
 
 ## 注意
