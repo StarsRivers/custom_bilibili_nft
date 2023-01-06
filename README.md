@@ -14,7 +14,14 @@ python3.8+
 pip install requests requests_toolbelt
 ```
 ## 获取 ACCESS_KEY
-
+手机可选择使用codespaces运行本仓库的login.go文件进行获取
+运行步骤
+1.安装codespaces扩展然后终端运行以下命令
+```bash
+go get github.com/Baozisoftware/qrcode-terminal-go
+go get github.com/tidwall/gjson
+go run login.go
+```
 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool
 
 如果下载慢，可使用以下网盘下载
