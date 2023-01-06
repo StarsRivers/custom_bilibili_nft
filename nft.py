@@ -9,8 +9,8 @@ from urllib.parse import urlencode
 from requests_toolbelt.multipart.encoder import MultipartEncoder
 import imghdr
 
-UID = 00000000000 # 你的UID
-ACCESS_KEY = "00000000000000"  # 你的ACCESS_KEY (TV端,非TV端自行更换下面的APPKEY,APPSECRET,TV端access_key获取工具 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool)
+UID = 0 # 你的UID
+ACCESS_KEY = "****"  # 你的ACCESS_KEY (TV端,非TV端自行更换下面的APPKEY,APPSECRET,TV端access_key获取工具 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool)
 FACE_PATH = r"face.jpg"  # 头像路径 推荐正方形
 
 CARD_INFO_PATH = Path(__file__).parent / "bili.json"  # 不要动
