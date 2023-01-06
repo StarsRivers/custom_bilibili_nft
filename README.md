@@ -25,5 +25,5 @@ https://www.123pan.com/s/Dl5UVv-KYr8H
 ## 注意
 
 -   必须有个三体数字藏品 R 级别的卡 ，其他集合自行更换 第 84 行的 `act_id` 参数
-
+三体数字藏品 R 级别领取地址：https://www.bilibili.com/h5/mall/v2/card/collection?act_id=14&hybrid_set_header=2
 -   1是段艺璇-语音类型的数字藏品、4是胶囊计划、5是天官赐福、7，8，9，12是音-福系列数字藏品、14是三体
