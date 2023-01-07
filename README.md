@@ -18,6 +18,7 @@ pip install requests requests_toolbelt
 运行步骤
 1.安装codespaces扩展然后终端运行以下命令
 ```bash
+pip install requests requests_toolbelt
 go mod init gotest
 go get github.com/Baozisoftware/qrcode-terminal-go
 go get github.com/tidwall/gjson
