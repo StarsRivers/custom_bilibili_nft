@@ -23,6 +23,7 @@ go mod init gotest
 go get github.com/Baozisoftware/qrcode-terminal-go
 go get github.com/tidwall/gjson
 go run login.go
+
 ```
 https://github.com/XiaoMiku01/fansMedalHelper/releases/tag/logintool
 
